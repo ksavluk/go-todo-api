@@ -1,0 +1,21 @@
+version: "3.7"
+services:
+    db:
+        image: postgres:13
+        environment:
+            POSTGRES_USER: user
+            POSTGRES_PASSWORD: password
+            POSTGRES_DB: todolist
+
+    api:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - "8080:8080"
+        restart: always
+        depends_on:
+            - db
+        environment:
+            ADDRESS: :8080
+            DSN: postgres://user:password@db/todolist?sslmode=disable
